@@ -4,13 +4,16 @@ matrix:
     - os: windows
       language: sh
       python: 3
-      # Perform the manual steps on windows to install python3
+      # Perform the manual steps on windows to install python3 + python2
       before_install:
-        - choco install python3 --params "/InstallDir:C:\Python"
-        - export PATH="/c/Python:/c/Python/Scripts:$PATH"
+        - choco install python3 --params "/InstallDir:C:\Python3"
+        - choco install python2 --params "/InstallDir:C:\Python2"
+        - export PATH="/c/Python3:/c/Python3/Scripts:/c/Python2:/c/Python2/Scripts:$PATH"
         - python -m pip install --upgrade pip
+      install:
+        - pip install tox
       before_script:
-        - export TOXENV=py3-win
+        - export TOXENV="py{3,2}-win"
 
     - python: "2.7"
     - python: "3.4"
